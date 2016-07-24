@@ -1,0 +1,32 @@
+<ion-view view-title="Videos">
+     <div id="search-bar">
+        <div class="item item-input-inset">
+          <label class="item-input-wrapper" id="search-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="text" id="query" placeholder="Search" ng-model="query" ng-change="search()" ng-blur="blur()">
+          </label>
+        </div>
+      </div>
+      <ion-content>
+      
+	    <div class="list" ng-repeat="vid in videos">
+	     <div class="js-video [vimeo]">
+	     	 <vimeo-video player-id="video{{$index}}" video-url="vid.link" player-width="100" player-height="75"></vimeo-video>
+	     </div>
+		</div> 
+	 
+  </ion-content>
+  <div class="bar bar-footer bar-energized">
+  	<!--  <button play-all="sounds" class="button-clear ion-play" ng-show="sounds.length" ng-hide="playlist.length"> Play all tracks</button>
+  	   	<sound-manager></sound-manager>
+  	   	
+  	 <button ng-show="playlist.length" prev-track class="button-clear ion-skip-backward"></button> 
+  	 <button ng-show="playlist.length && !isPlaying" play-music class="button-clear ion-play"></button> 
+  	 <button ng-show="playlist.length && isPlaying" pause-music class="button-clear ion-pause"></button>
+  	 <button ng-show="playlist.length" next-track class="button-clear ion-skip-forward"></button>
+  	 <button ng-show="playlist.length" class="button-clear ion-android-sync" repeat-music> Repeat <span ng-show="repeat==true">on</span><span ng-show="repeat==false">off</span></button> -->
+  <div class="title title-right">
+  	<i class="ion-social-vimeo"></i>
+  </div>
+</div>  
+</ion-view>

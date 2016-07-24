@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Afrobeatz</title>
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+	 <link href="css/style.css" rel="stylesheet">
+	 <link href="css/js-video.css" rel="stylesheet">
+	
+  </head>
+
+  <body ng-app="starter" class="background">
+    <div class="container" ng-controller="TracksCtrl">
+        <div class="row">
+            <div class="col-md-12">
+
+                <h5>Songs</h5>
+                <ul>
+                    <li ng-repeat="song in songs">
+                        <button music-player="play" add-song="song">{{ song.title }}</button>
+                        <button music-player add-song="song">+</button>
+                    </li>
+                </ul>
+
+                <button play-all="songs">Play all</button>
+
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- init soundManager2 player -->
+                <sound-manager></sound-manager>
+
+                <p>
+                    Currently Playing: {{ currentPlaying.title }} by {{ currentPlaying.artist }} ({{ currentPostion }} / {{ currentDuration }})
+                </p>
+
+                <div class="seekBase" seek-track>
+                    <div class="seekLoad" ng-style="{width : ( progress + '%' ) }"></div>
+                </div>
+                <br />
+                <button play-music>Play</button>
+                -
+                <button pause-music>Pause</button>
+                -
+                <button stop-music>Stop</button>
+                -
+                <button repeat-music>Repeat ({{ repeat }})</button>
+                -
+                <button play-pause-toggle data-play="Play!" data-pause="Pause!">Play Toggle</button>
+
+                Is Playing: {{ isPlaying }}
+                <br/>
+                <br/>Volume: {{ volume }} -
+                <button music-volume data-type="increase">+</button>
+                -
+                <button music-volume data-type="decrease">-</button>
+                -
+                <button mute-music>Mute ({{ mute }})</button>
+                <br/>
+                <br/>
+                <button prev-track>Prev Track</button>
+                -
+                <button next-track>Next Track</button>
+                -
+                <button clear-playlist>Clear Playlist</button>
+                <br/>
+                <br/>
+                <h5>Playlist</h5>
+                <ul>
+                    <li ng-repeat="song in playlist">
+                        <a play-from-playlist="song">{{ song.title }}</a>
+                        -
+                        <a remove-from-playlist="song" data-index="{{$index}}">
+                            <small>(remove)</small>
+                        </a>
+                        <span ng-if="currentPlaying.id == song.id"> - (current)</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+	<script src="http://connect.soundcloud.com/sdk.js"></script>
+   
+    <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
+<!-- 	<script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script> -->
+	<script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+	<script src="js/angular-soundmanager2.js"></script>
+	 <!-- cordova script (this will be a 404 during development) -->
+	<!-- <script src="cordova.js"></script> -->
+<!-- 
+    <script src="lib/angular-sanitize/angular-sanitize.min.js"></script> 
+	<script src="js/angular-vimeo-embed.js"></script>
+	
+	
+  
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>-->
+    <script>
+var app = angular.module('starter', ['ionic','angularSoundManager','ngCordova']);   
+app.run(function($ionicPlatform, $rootScope, $window) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    
+    if (window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
+
+    }
+    if (window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+
+  });
+
+  
+})
+
+
+.controller('TracksCtrl', function($scope, $http) {
+	
+		var url = "https://api.soundcloud.com/tracks";
+	
+	var params = {
+			client_id : "655bce42b527848bbc9732b0b5f03916",
+			q : "Olamide",
+			genres : "Afrobeats, afrobeats, naija, 9jaJist, 9ja, Azonto, afro-hiphop, afrobeatsgroove, afrobeatsjazz, naija RnB, Afrobeat Funk, Afrofunk, Afro house music",
+			track_type : "original, remix",
+			limit: 30
+	};
+	SC.initialize({
+					client_id : "655bce42b527848bbc9732b0b5f03916"
+				}); 		
+	
+			 	
+		 // $scope.sounds =[];
+		  var tracks = [];
+	
+		    	$scope.songs = [];
+		    	 $http({
+				method:"GET",
+				url:url,
+				params: {
+					client_id : params.client_id,
+					q :"Fela Kuti",
+					genres : "Afrobeats, afrobeats, naija, 9jaJist, 9ja, Azonto, afro-hiphop, afrobeatsgroove, afrobeatsjazz, naija RnB, Afrobeat Funk, Afrofunk, Afro house music",
+					track_type : "original, remix",
+					//cache : SoundCacheData
+				},
+	            contentType: "application/json; charset=utf-8",
+	            dataType: "json"
+			}).success(function(tracksObj){
+
+		
+        
+            for (var i = 0; i < tracksObj.length; i ++) {
+                SC.stream( '/tracks/' + tracksObj[i].id, function( sm_object ){
+                    var track = {
+                        id: tracksObj[i].id,
+                        title: tracksObj[i].title,
+                        artist: tracksObj[i].genre,
+                        url: sm_object.url
+                    };
+                    
+                    //$scope.$apply(function () {
+                        tracks.push(track);
+                   // });
+                });
+            }  
+            angular.copy(tracks, $scope.songs);
+			            return $scope.songs;       
+        });
+			 	
+		
+});
+
+    </script>
+    
+  </body>
+</html>

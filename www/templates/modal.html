@@ -1,0 +1,36 @@
+ <ion-modal-view>
+    <ion-header-bar class="bar-dark">
+		<h3 class="title">{{playlistType || 'Instant'}} Playlist</h3>
+		<button class="button button-clear ion-android-close" ng-click="modal.hide()"></button>
+    </ion-header-bar>
+    <ion-content  class="backgrond">
+    	
+    	<div class="center" ng-show="!playlist.length">Add tracks..!</div>
+    	<ion-list>
+		<ion-item ng-repeat="track in playlist">
+		
+		<div play-from-playlist="track" >
+			
+		    <h2 ng-class="{'ion-volume-medium assertive' : currentPlaying.id == track.id}"> {{track.title}} <i class="ion-music-note"></i></h2>
+		  
+		</div>
+		<ion-option-button class="button-clear" remove-from-playlist="track" data-index="{{$index}}"> <span ng-if="currentPlaying.id == track.id"></span><i class="right-align ion-ios-trash-outline"></i></ion-option-button>
+		 <!--  <ion-option-button remove-from-playlist="track" data-index="{{$index}}" class="button-clear ion-trash-b"></ion-option-button>
+		   -->
+		   </ion-item>
+		</ion-list>
+    </ion-content>
+    <div class="bar bar-footer bar-energized">
+	  <sound-manager></sound-manager>
+<div class="row">
+  <div class="col col-75"><button ng-show="playlist.length > 1" prev-track class="button-clear ion-skip-backward"></button> <button ng-show="playlist.length" play-pause-toggle data-play="Play all!" data-pause="Pause!" class="button-clear ion-play"></button> <button ng-show="playlist.length > 1" next-track class="button-clear ion-skip-forward"></button>
+  	<i ng-show="playlist.length">{{ currentPostion }} <span class="seekBase" seek-track><span class="seekLoad" ng-style="{width : ( progress + '%' ) }"></span></span>{{ currentDuration }}<br><samp>{{ currentPlaying.title }}</samp></i>
+  	
+  	</div>
+  <div class="col"><button ng-show="playlist.length" class="button-clear ion-ios-loop" repeat-music> <span ng-show="repeat==true">on</span><span ng-show="repeat==false">off</span></button> <button ng-show="playlist.length" stop-music clear-playlist class="button-clear ion-eject"></button>
+  	</div>
+
+</div>	  
+
+	</div>
+  </ion-modal-view>

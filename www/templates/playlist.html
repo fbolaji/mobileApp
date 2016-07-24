@@ -1,0 +1,48 @@
+<ion-view view-title="{{username}} playlist">
+  <ion-content id="playlists" class="background">
+<div class="mb3 bg-darken-2 rounded">
+   
+  <div class="p2">
+    <div class="item-thumbnail-left">
+    	<img ng-src="{{avatar}}" alt="{{track.title}} artwork"/>
+      <h2>{{username}}</h2>
+    </div>
+
+    
+   
+  </div>
+
+</div> 
+
+<ion-list ng-repeat="track in playlist">
+ 
+	<ion-item class="item" ng-class="{'bar bar-assertive' : currentPlaying.id == track.id}">
+	
+	<div play-from-playlist="track" >
+		
+	    <h2 ng-class="{'ion-volume-medium assertive' : currentPlaying.id == track.id}"> {{track.title}} <i class="ion-music-note"></i></h2>
+	  <!-- <button class="button-clear ion-play" music-player="play"></button>  -->
+	  <button class="button-clear right-0 download h5" ng-if="track.downloadable"><a ng-href="{{track.download_url}}?client_id=655bce42b527848bbc9732b0b5f03916"><i class="ion-android-download"></i></a></button>
+	</div>
+	<ion-option-button class="button-clear" remove-from-playlist="track" data-index="{{$index}}"> <span ng-if="currentPlaying.id == track.id"></span><i class="right-align ion-ios-trash-outline"></i></ion-option-button>
+
+	   </ion-item>
+</ion-list>
+
+
+  </ion-content>
+ <div class="bar bar-footer bar-energized playlist-footer">
+  	  <button play-all="playlist" class="button-clear ion-play" ng-show="playlist.length" ng-hide="userplaylist" ng-click="userplaylist=true; modal.show()"> Play all tracks</button>
+  	<!--  
+  	   	<sound-manager></sound-manager>
+  	 <button ng-show="playlist.length > 0" prev-track class="button-clear ion-skip-backward"></button> 
+  	 <button ng-show="playlist.length" play-pause-toggle data-play="Play all!" data-pause="Pause!" class="button-clear ion-play"></button> 
+  	 <button ng-show="playlist.length > 0" next-track class="button-clear ion-skip-forward"></button>
+  	 <button ng-show="playlist.length" class="button-clear ion-android-sync" repeat-music> Repeat <span ng-show="repeat==true">on</span><span ng-show="repeat==false">off</span></button>
+  	 <span class="col-2">{{ currentPostion }}</span> <div class="seekBase" seek-track><div class="seekLoad" ng-style="{width : ( progress + '%' ) }"></div></div><span class="col-2">{{ currentDuration }}</span> <span class="center"><samp>{{ currentPlaying.title }}</samp></span>
+  	   -->
+	  <div class="title title-right">
+	  	<img src="https://developers.soundcloud.com/assets/logo_black-8c4cb46bf63fda8936f9a4d967416dc6.png">
+	  </div>
+</div>
+</ion-view>

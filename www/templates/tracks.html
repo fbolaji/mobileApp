@@ -1,0 +1,90 @@
+ <ion-view view-title="Artist/tracks">
+     <div id="search-bar">
+        <div class="item item-input-inset">
+          <label class="item-input-wrapper" id="search-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="text" id="query" placeholder="Search" ng-model="query" ng-change="search()" ng-blur="blur()">
+          </label>
+        </div> 	
+      </div>
+
+  <ion-content id="content" push-search >
+<!-- 	 <ion-refresher
+	    pulling-text="Pull to refresh..."
+	    on-refresh="doRefresh()">
+	  </ion-refresher> -->
+ <sound-manager></sound-manager>
+    <ion-list ng-repeat="track in sounds | filter:query">
+    <ion-item class="item-thumbnail-left" ng-class="{'bar bar-assertive' : currentPlaying.id == track.id}">
+    	<img ng-src="{{track.artwork_url}}" alt="{{track.title}} artwork"/>
+   
+	 <div class="flex flex-center">
+	 
+	  <div class="flex-auto">
+	    <!-- <h3 class="h4 m0"><a ng-href="{{track.user.permalink_url}}">by {{track.user.username}}</a></h3> -->
+	    <h2 class="h4 caps m0">{{track.title}}</h2>
+	    <div class="flex flex-center">    
+	    	<!-- <button class="button" ng-click="play(track.uri)">native play</button> -->
+	      <button music-player="play" 
+	      add-song="track" 
+	      class="button-clear ion-play animate-show" 
+	      ng-class="{'inPlay' : currentPlaying.id == track.id, 'notPlay': !isPlaying}"></button>
+	      
+	       <button pause-music class="button-clear ion-pause animate-show" ng-show="currentPlaying.id == track.id" ng-hide="currentPlaying != track.id"></button>
+ 
+   			<samp ng-show="currentPlaying.id == track.id" ng-hide="currentPlaying != track.id" class="right-0">{{ currentPostion }} / {{ currentDuration }}</samp>
+	 
+	    </div>
+	    	       
+	    <a class="button-clear ion-android-download right" ng-if="track.downloadable" ng-href="{{track.download_url}}?client_id=655bce42b527848bbc9732b0b5f03916"></a>
+	    
+	   <a class="button-clear ion-radio-waves right" ng-href="/#/app/user-playlist/:{{track.user.id}}"></a>
+		    
+		     
+	  </div>
+	<!-- init soundManager2 player -->
+	
+	</div>
+
+	   
+     
+	</ion-item>
+  	
+</ion-list>  
+ 
+<!--<i id="like" ng-class="{'icon ion-ios7-heart': liked, 'icon ion-ios7-heart-outline': !liked}" ng-click="liked=!liked"></i>-->	
+ <script id="popover.html" type = "text/ng-template">
+
+ <sound-manager></sound-manager>
+ <ion-popover-view class="bar-energized">
+    <ion-header-bar>
+		<h3 class="title">Playlist</h3>
+		<!-- <button type="button" ng-click="openPopover($event)" >Show Popover</button> -->
+    </ion-header-bar>
+    <ion-content>
+    	<div ng-show="!playlist.length">Add tracks..!</div>
+		<div ng-show="playlist.length" class="list" ng-repeat="track in playlist">
+			<a href="#" play-from-playlist="track"><i class="icon ion-radio-waves"></i>{{ track.title }}
+			    <span remove-from-playlist="track" data-index="{{$index}}"> <span ng-if="currentPlaying.id == track.id"> - (current)</span><i class="ion-trash-b right-0">(remove)</i></span></a>
+			  </h3>
+		</div>
+    </ion-content>
+  </ion-popover-view>
+  </script>
+  
+  </ion-content>
+  <div class="bar bar-footer bar-energized" >
+  	 <button play-all="sounds" class="button-clear ion-play" ng-show="sounds.length" ng-hide="playlist.length"  ng-click="modal.show()"> Play all tracks</button>
+  	<sound-manager></sound-manager>
+  	
+  	 <button ng-show="playlist.length > 1" prev-track class="button-clear ion-skip-backward"></button> 
+  	 <button ng-show="playlist.length" play-pause-toggle data-play="Play all!" data-pause="Pause!" class="button-clear ion-play" ng-class="{'ion-play':isPlaying = false, 'ion-pause':isPlaying = true}"></button> 
+  	 <button ng-show="playlist.length > 1" next-track class="button-clear ion-skip-forward"></button>
+  	 <button ng-show="playlist.length" class="button-clear ion-android-sync" repeat-music> Repeat <span ng-show="repeat==true">on</span><span ng-show="repeat==false">off</span></button>
+  	<!-- <span ng-show="playlist.length"><samp>{{ currentPlaying.artist }} {{ currentPostion }} / {{ currentDuration }}</samp></span> -->
+ 
+	  <div class="title title-right">
+	  	<img src="https://developers.soundcloud.com/assets/logo_black-8c4cb46bf63fda8936f9a4d967416dc6.png">
+	  </div>
+</div>
+ </ion-view> 

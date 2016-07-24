@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>fbk-post-test</title>
+		<meta name="description" content="">
+		<meta name="author" content="Francis O Bolaji">
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico">
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	</head>
+
+	<body>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+		<script>
+		var appId = "1535347156761607";
+		var accessToken = "EAACEdEose0cBANbVS0BaCZBlctgkWZC58bxulhTkbBraHBP9JqK4Uy3SZCOTDWm54fGNv5hIjAXqFIIROmYNaCDtOcHzLUje3jjH6tXxrqn1Du381Jud7DOG3YCv2tb9BKxAyZBUuqYmYhhsMj6kVVBg9CiX2vMKWkdlRapVWgZDZD";
+		var authURL = "https://graph.facebook.com/oauth/access_token?" + "client_id=" + appId + "&client_secret=" + accessToken + "&grant_type=client_credentials";
+		
+			(function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+   
+   
+   function getPosts(){
+		FB.api(
+		  '/notjustokpage/',
+		  'GET',
+		  {"fields":"posts.limit(10){permalink_url,description,caption,full_picture}"},
+		  function(response) {
+		      // Insert your code here
+		      console.log(response);
+		  }
+		);
+   }
+   
+   // $(function(){
+   	// $.getJSON(authURL).then(function(data){
+   		// console.log(data);
+   	// });
+   // });
+		</script>
+	</body>
+</html>

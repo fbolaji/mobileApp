@@ -1,0 +1,44 @@
+<ion-view view-title="Picks!">
+  <ion-content>
+  	 <ion-refresher
+	    pulling-text="Pull to refresh..."
+	    on-refresh="doRefresh()">
+	  </ion-refresher>
+	<div class="list card">
+	
+	 <!-- <div class="item item-avatar">
+	     <img ng-src="{{postfeed[0].picture}}" alt="">
+	    <h2>{{postfeed[0].caption}}</h2>
+	    <p>{{postfeed[0].created_time}}</p>
+	  </div>
+	-->
+	  <div class="item item-body" ng-repeat="post in postfeed | limitTo:numLimit">
+	    <a ng-href="{{post.permalink_url}}"><img ng-src="{{post.full_picture}}" alt="">
+	    <p>
+	      {{post.description}}
+	    </p>
+	    <p class="subdued"><span class="ion-social-facebook"></span> likes({{post.likes.data.length}})</p>
+	    </a>
+	  </div>
+	
+	</div>  
+<!-- <div class="list" ng-repeat="post in postfeed | limitTo:numLimit" ng-if="$index > 1">
+    <a class="item item-thumbnail-left" href="#">
+      <img ng-src="{{post.full_picture}}" width="100%" alt="">
+      <h2>{{post.caption}}</h2>
+      <p>{{post.description}}</p>
+    </a>
+</div> -->
+</div>    
+    
+  </ion-content>
+    <div class="bar bar-footer bar-assertive">
+  	<!-- <sound-manager></sound-manager>
+  		 <button ng-show="playlist.length" prev-track class="button-clear ion-skip-backward"></button> 
+  	 <button ng-show="playlist.length" play-pause-toggle data-play="Play all!" data-pause="Pause!" class="button-clear ion-play"></button> 
+  	 <button ng-show="playlist.length" next-track class="button-clear ion-skip-forward"></button> -->
+  <div class="title title-right">
+  	NotJustOk
+  </div>
+</div>  
+</ion-view>

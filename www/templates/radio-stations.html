@@ -1,0 +1,27 @@
+<ion-view view-title="Radio : Music Nest!">
+  <ion-content>
+ 
+	<div class="list card">
+	
+
+	  <div class="item item-body" ng-repeat="radio in stationList">
+	    <img ng-src="{{radio.imageURL}}" alt="{{radio.name}}">
+	    <audio ng-src="{{radio.link}}" autoplay="false" controls="tru"></audio>
+	    
+	  </div>
+	
+	</div>  
+	
+</div>    
+    
+  </ion-content>
+    <div class="bar bar-footer bar-assertive">
+  	<!-- <sound-manager></sound-manager>
+  		 <button ng-show="playlist.length" prev-track class="button-clear ion-skip-backward"></button> 
+  	 <button ng-show="playlist.length" play-pause-toggle data-play="Play all!" data-pause="Pause!" class="button-clear ion-play"></button> 
+  	 <button ng-show="playlist.length" next-track class="button-clear ion-skip-forward"></button> -->
+  <div class="title title-right">
+  	Music Nest.com Radio
+  </div>
+</div>  
+</ion-view>
